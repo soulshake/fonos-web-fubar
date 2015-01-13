@@ -1,0 +1,46 @@
+{{ define "dashboard" }}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Fonos</title>
+		<link rel="stylesheet" href="/assets/css/foundation.css">
+		<link rel="stylesheet" href="/assets/css/foundation-icons.css">
+		<link rel="stylesheet" href="/assets/css/console.css">
+
+	</head>
+
+	<body>
+		<div id="wrap">
+		{{ template "header" . }}
+		<div class="row expanded" id="page-contents">
+			<div id="menu" class="medium-3 large-2 columns show-for-medium">
+				<ul class="vertical menu">
+					<li role="integrations"><a href="/" style="background-image: url('/assets/img/integrations.svg');">Dashboard</a></li>
+					<li role="integrations"><a href="/sinks" style="background-image: url('/assets/img/integrations.svg');">Sinks</a></li>
+					<li role="integrations"><a href="/volumes" style="background-image: url('/assets/img/integrations.svg');">Volume</a></li>
+					<li role="integrations"><a href="/sink-inputs" style="background-image: url('/assets/img/integrations.svg');">Sink Inputs</a></li>
+					<li role="integrations"><a href="/pacmd" style="background-image: url('/assets/img/integrations.svg');">pacmd</a></li>
+				</ul>
+			</div>
+
+			<div id="main" class="small-12 medium-9 large-10 medium-offset-3 large-offset-2 columns">
+
+				<div class="main-container">
+					{{ template "flash-error" . }}
+					{{ template "body" . }}
+				</div>
+			</div>
+		</div>
+			</div>
+			<div id="footer" class="small-12 columns text-right">
+				<ul class="menu align-right">
+					<li><a href="/sinks/">Sinks</a></li>
+				</ul>
+			</div>
+
+	</body>
+</html>
+{{ end }}

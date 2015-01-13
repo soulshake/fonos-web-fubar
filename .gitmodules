@@ -1,0 +1,3 @@
+[submodule "PaWebControl"]
+	path = PaWebControl
+	url = https://github.com/Siot/PaWebControl.git

@@ -1,0 +1,74 @@
+{{ define "body" }}
+	<div id="sinks">
+    {{ range $sink := .Sinks }}
+        <div id="s{{ $sink.Index }}" class="sortable">
+
+            <span>
+                {{ if eq $sink.Muted true }}
+                    <input type="checkbox" checked>
+                {{ else }}
+                    <input type="checkbox">
+                {{ end }}
+
+                <input type="text" value={{ $sink.CurrentVolumeStep }} disabled />
+
+                {{ $sink.Description }}
+            </span>
+
+            {{ if eq $sink.Muted true }}
+                <input type="range"
+                    min="0"
+                    max="{{ $sink.NumVolumeSteps }}"
+                    step="1"
+                    list="volumescale"
+                    value={{ $sink.CurrentVolumeStep }} disabled>
+            {{ else }}
+                <input type="range"
+                    min="0"
+                    max={{ $sink.NumVolumeSteps }}
+                    step="1"
+                    list="volumescale"
+                    value={{ $sink.CurrentVolumeStep }}>
+            {{ end }}
+        </div>
+
+    {{ end }}
+
+    </div>
+	<datalist id="volumescale"><option>100</option></datalist>
+
+    <script>
+        $('input[type="range"]').on("change",function(){
+           xhr_get({id: this.parentNode.id, volume: this.value});
+        });
+        $('input[type="range"]').on('touchstart mousedown', function(){
+            clearTimeout(activityTimeout);
+        });
+        $('input[type="range"]').on('touchend mouseup', function(){
+            resetActive();
+        });
+        $('input[type="checkbox"]').on("change",function(){
+           if(this.checked){
+               value = 1;
+            }else{
+                value = 0;
+            }
+           xhr_get({id: this.parentNode.parentNode.id, mute: value});
+        });
+
+        function xhr_get(parameters){
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:1337/api",
+                dataType: "json",
+                data: parameters
+            }).done(function( resp ) {
+                console.log( resp );
+                $('#inputs div').remove();
+                $('#sinks div').remove();
+                showPanel(resp);
+            });
+            }
+    </script>
+
+{{ end }}
